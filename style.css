@@ -1,0 +1,437 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  outline: none;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+}
+
+body {
+  background: #ffff;
+  overflow: hidden;
+}
+
+/* Start Screen Starts */
+
+.start-screen {
+  position: absolute;
+  font-family: "Poppins", serif;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #161616;
+  transform: scale(1.5);
+}
+
+.bubbles {
+  position: absolute;
+  top: 0;
+  display: flex;
+  z-index: -1;
+}
+
+.bubbles span {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  background: #00ffd5;
+  margin: 0 4px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 10px #4fc3dc44, 0 0 50px #4fc3dc, 0 0 100px #4fc3dc;
+  animation: animate 15s linear infinite;
+  animation-duration: calc(160s / var(--i));
+}
+
+.bubbles span:nth-child(even) {
+  background: #ff2d75;
+  box-shadow: 0 0 0 10px #ff2d7544, 0 0 50px #ff2d75, 0 0 100px #ff2d75;
+}
+
+@keyframes animate {
+  0% {
+    transform: translateY(100vh) scale(0);
+  }
+  100% {
+    transform: translateY(-5vh) scale(1);
+  }
+}
+
+#startButton {
+  position: absolute;
+  font-size: 25px;
+  font-weight: 700;
+  padding: 15px 40px;
+  border-radius: 12px;
+  position: relative;
+  z-index: 0;
+  color: #ffff;
+}
+
+#startButton::after {
+  content: "";
+  z-index: -1;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #333;
+  left: 0;
+  top: 0;
+  border-radius: 12px;
+}
+
+#startButton::before {
+  content: "";
+  background: linear-gradient(
+    45deg,
+    #ff0000,
+    #ff7300,
+    #fffb00,
+    #48ff00,
+    #00ffd5,
+    #002bff,
+    #ff00c8,
+    #ff0000
+  );
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  background-size: 600%;
+  z-index: -1;
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  filter: blur(8px);
+  animation: glowing 20s linear infinite;
+  transition: opacity 0.3s ease-in-out;
+  border-radius: 10px;
+  opacity: 0;
+}
+
+@keyframes glowing {
+  0% {
+    background-position: 0 0;
+  }
+  50% {
+    background-position: 400% 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
+
+#startButton:hover::before {
+  opacity: 1;
+}
+
+#startButton:active:after {
+  background: transparent;
+}
+
+#startButton:active {
+  color: #000;
+  font-weight: bold;
+}
+
+/* Start Screen Ends */
+
+/* Game Screen Starts */
+
+.flex-space {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#gameInstructions {
+  font-family: "Poppins", sans-serif;
+  color: #333;
+}
+
+.title {
+  font-family: "Poppins", sans-serif;
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #f8e16f;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+  display: inline-block;
+  white-space: nowrap;
+  border-right: 4px solid #fff;
+  padding-right: 5px;
+  animation: blink 0.6s infinite;
+}
+
+@keyframes blink {
+  50% {
+    border-color: transparent;
+  }
+}
+
+#gameStatus {
+  animation: bounce 0.8s infinite ease-in-out;
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 70vh;
+}
+
+.indicator {
+  height: 85px;
+  width: 270px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top-left-radius: 50%;
+  border-top-right-radius: 50%;
+  background: #4fc3dc;
+  box-shadow: 0 16px 48px rgba(37, 22, 80, 0.9);
+  transition: background-color 0.3s ease-in-out;
+}
+
+.indicator #gameStatus {
+  font-size: 20px;
+  font-weight: 600;
+  font-family: "Poppins", sans-serif;
+}
+
+.container-content {
+  background: #ffff;
+  width: 90%;
+  max-width: 592px;
+  padding: 48px 32px;
+  border-radius: 13px;
+  box-shadow: 0 16px 48px rgba(37, 22, 80, 0.5);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#colorBox {
+  height: 70px;
+  width: 70px;
+  background-color: var(--target-color, #fff);
+  border-radius: 15px;
+  margin: 10px 0;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.score-timer {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: #4fc3dc44 solid 1px;
+}
+
+.timer,
+.score-txt {
+  font-size: 15px;
+  font-weight: bold;
+  color: #333;
+  font-family: "Poppins", sans-serif;
+}
+
+.btn-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  justify-content: center;
+  align-items: center;
+  height: auto;
+}
+
+.colorOption {
+  width: 70px;
+  height: 70px;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: transform 0.5s ease, box-shadow 0.2s ease;
+}
+
+.colorOption:hover {
+  transform: scale(1.15);
+}
+
+.buttonContainer {
+  display: flex;
+  width: 45%;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#newGameButton {
+  padding: 20px 30px;
+  font-size: 18px;
+  font-weight: 600;
+  background: #4fc3dc;
+  color: #ffff;
+  border-radius: 10px;
+  transition: ease-in-out 0.5s;
+}
+
+#newGameButton:hover {
+  padding: 21px 35px;
+}
+
+#nextGameButton {
+  padding: 20px 30px;
+  font-size: 18px;
+  font-weight: 600;
+  background: #95cf92;
+  color: #ffff;
+  border-radius: 10px;
+  transition: ease-in-out 0.5s;
+}
+
+#nextGameButton:hover {
+  padding: 21px 35px;
+}
+
+/* Games Screen */
+
+/* Responsive Styles */
+@media (max-width: 1024px) {
+  .container-content {
+    width: 95%;
+    padding: 40px 24px;
+  }
+
+  .indicator {
+    width: 230px;
+    height: 70px;
+  }
+
+  .indicator #gameStatus {
+    font-size: 18px;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    height: auto;
+    padding: 20px;
+  }
+
+  .container-content {
+    width: 100%;
+    padding: 32px 20px;
+  }
+
+  .title {
+    font-size: 1.8rem;
+  }
+
+  .indicator {
+    width: 200px;
+    height: 65px;
+  }
+
+  .indicator #gameStatus {
+    font-size: 16px;
+  }
+
+  #colorBox {
+    width: 60px;
+    height: 60px;
+  }
+
+  .score-timer {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .colorOption {
+    width: 60px;
+    height: 60px;
+  }
+
+  .buttonContainer {
+    width: 100%;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  #newGameButton,
+  #nextGameButton {
+    width: 80%;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .indicator {
+    width: 180px;
+    height: 60px;
+  }
+
+  .indicator #gameStatus {
+    font-size: 14px;
+  }
+
+  .container-content {
+    padding: 24px 16px;
+  }
+
+  .score-timer {
+    flex-direction: column;
+  }
+
+  .btn-container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .colorOption {
+    width: 55px;
+    height: 55px;
+  }
+
+  #newGameButton,
+  #nextGameButton {
+    width: 90%;
+    padding: 15px 20px;
+    font-size: 16px;
+  }
+
+  #startButton {
+    font-size: 20px;
+    padding: 12px 30px;
+  }
+}
