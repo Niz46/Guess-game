@@ -10,7 +10,7 @@ const colors = [
 let score = 0;
 let targetColor = "";
 let timer;
-let timeLeft = 15;
+let timeLeft = 20;
 let gameActive = true;
 
 const colorBox = document.getElementById("colorBox");
@@ -79,12 +79,20 @@ function handleGuess(button) {
   if (button.dataset.color === targetColor) {
     showGameStatus("Correct! 🎉", "green");
     score++;
+    scoreDisplay.textContent = `Score: ${score}`;
   } else {
     showGameStatus("Wrong! Try again. ❌", "red");
-    nextGameButton.disabled = true;
-  }
 
-  scoreDisplay.textContent = `Score: ${score}`;
+    nextGameButton.disabled = false;
+
+    Swal.fire({
+      title: "Oops! ❌",
+      text: "That was the wrong color. Click 'Next' to try again!",
+      icon: "error",
+      confirmButtonText: "OK",
+      confirmButtonColor: "#ff4b5c",
+    });
+  }
 }
 
 function showGameStatus(message, color) {
@@ -97,7 +105,6 @@ function showGameStatus(message, color) {
   }, 600);
 }
 
-// Start Timer
 function startTimer() {
   timerDisplay.textContent = `Time Left: ${timeLeft}s`;
   timer = setInterval(() => {
